@@ -10,7 +10,7 @@
 # It is possible that the type of an analsyis port or export will be a parameterized
 # class. Be aware that type mismatches between the port type defined here and the connected
 # port could occur; the generator script does not carry out any checking at that level.
-#commit 5
+#commit 6
 uvmf:
   util_components:
     "writeback_predictor" :  
