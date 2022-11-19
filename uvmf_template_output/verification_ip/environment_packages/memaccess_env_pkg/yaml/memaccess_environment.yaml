@@ -1,0 +1,38 @@
+uvmf:
+  environments:
+    memaccess:
+      agents:
+      - initiator_responder: INITIATOR
+        name: memaccess_in_agent
+        type: memaccess_in
+      - initiator_responder: INITIATOR
+        name: memaccess_out_agent
+        type: memaccess_out
+      analysis_components:
+      - name: predictor
+        parameters: []
+        type: memaccess_predictor
+      analysis_exports: []
+      analysis_ports: []
+      config_constraints: []
+      config_vars: []
+      existing_library_component: 'True'
+      hvl_pkg_parameters: []
+      non_uvmf_components: []
+      parameters: []
+      qvip_memory_agents: []
+      scoreboards:
+      - name: scoreboard
+        sb_type: uvmf_in_order_scoreboard
+        trans_type: memaccess_out_transaction
+      subenvs: []
+      tlm_connections:
+      - driver: memaccess_in_agent.monitored_ap
+        receiver: predictor.analysis_export
+        validate: 'True'
+      - driver: predictor.memaccess_pred_out_trans
+        receiver: scoreboard.expected_analysis_export
+        validate: 'True'
+      - driver: memaccess_out_agent.monitored_ap
+        receiver: scoreboard.actual_analysis_export
+        validate: 'True'

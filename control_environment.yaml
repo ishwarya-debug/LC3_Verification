@@ -1,0 +1,37 @@
+uvmf:
+  environments:
+    control:
+    
+      agents:
+      - name: control_in_agent_obj
+        type: control_in
+        initiator_responder: "INITIATOR"
+      - name: control_out_agent_obj
+        type: control_out
+        initiator_responder: "RESPONDER"
+    
+      analysis_components:
+      - name: predictor
+        type: control_predictor
+      analysis_exports: []
+      analysis_ports: []
+    
+      config_constraints: []
+      config_vars: []
+    
+      parameters: []
+    
+      scoreboards:
+      - name: scoreboard
+        sb_type: uvmf_in_order_scoreboard
+        trans_type: control_out_transaction
+    
+      subenvs: []
+    
+      tlm_connections:
+      - driver: control_in_agent_obj.monitored_ap            # connection 00
+        receiver: predictor.analysis_export
+      - driver: predictor.predictor_analysis_port                   # connection 01
+        receiver: scoreboard.expected_analysis_export
+      - driver: control_out_agent_obj.monitored_ap           # connection 02
+        receiver: scoreboard.actual_analysis_export

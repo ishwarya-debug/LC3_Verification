@@ -1,0 +1,41 @@
+uvmf:
+  environments:
+    "memaccess":
+      ## Agents are defined in a LIST so that the order is maintained. This is important
+      ## because of how the BFMs are passed in at the bench utilize this same order when
+      ## this environment's initialize() routine is called.
+      agents: 
+      - initiator_responder: "INITIATOR"
+        name: "memaccess_in_agent"
+        type: "memaccess_in"
+      - initiator_responder: "INITIATOR"
+        name: "memaccess_out_agent"
+        type: "memaccess_out"
+      ## Analysis components are defined externally in a 'util_components' structure.
+      ## They are instantiated here.
+      analysis_components:
+      - name: "predictor"
+        type: "memaccess_predictor"
+      ## Each scoreboard is keyed by the scoreboard instantiation name with
+      ## information on the scoreboard type and what type of transaction it
+      ## will be parsing
+      scoreboards: 
+        - name: "scoreboard"
+          sb_type: "uvmf_in_order_scoreboard"
+          trans_type: "memaccess_out_transaction"
+      ## Define top-level analysis ports here. Keyed by the name of each
+      ## one, specify the type of transaction passing through as well as
+      ## which internal component will be driving the AP.
+      analysis_ports: []
+      analysis_exports: []
+#      Note regarding TLM connections:
+#          When connecting to UVMF agents, driver analysis_port_name is monitored_ap
+#          When connecting to expected side of UVMF scoreboards, receiver analysis_export_name is expected_analysis_export
+#          When connecting to actual side of UVMF scoreboards, receiver analysis_export_name is actual_analysis_export
+      tlm_connections:
+      - driver: memaccess_in_agent.monitored_ap
+        receiver: predictor.analysis_export
+      - driver: predictor.memaccess_pred_out_trans
+        receiver: scoreboard.expected_analysis_export
+      - driver: memaccess_out_agent.monitored_ap
+        receiver: scoreboard.actual_analysis_export

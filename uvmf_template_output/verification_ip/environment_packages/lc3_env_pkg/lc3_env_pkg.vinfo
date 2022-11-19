@@ -1,0 +1,9 @@
+@use $UVMF_HOME/uvmf_base_pkg/uvmf_base_pkg.vinfo
+@use $UVMF_VIP_LIBRARY_HOME/environment_packages/fetch_subenvironment_pkg/fetch_subenvironment_pkg.vinfo
+@use $UVMF_VIP_LIBRARY_HOME/environment_packages/decode_subenvironment_pkg/decode_subenvironment_pkg.vinfo
+@use $UVMF_VIP_LIBRARY_HOME/environment_packages/execute_subenvironment_pkg/execute_subenvironment_pkg.vinfo
+@use $UVMF_VIP_LIBRARY_HOME/environment_packages/writeback_subenvironment_pkg/writeback_subenvironment_pkg.vinfo
+@use $UVMF_VIP_LIBRARY_HOME/environment_packages/memaccess_subenvironment_pkg/memaccess_subenvironment_pkg.vinfo
+@use $UVMF_VIP_LIBRARY_HOME/environment_packages/control_subenvironment_pkg/control_subenvironment_pkg.vinfo
++incdir+@vinfodir
+lc3_env_pkg.sv

@@ -1,0 +1,35 @@
+uvmf:
+  environments:
+    lc3:
+      agents: []
+      analysis_components: []
+      analysis_exports: []
+      analysis_ports: []
+      config_constraints: []
+      config_vars: []
+      existing_library_component: 'True'
+      hvl_pkg_parameters: []
+      non_uvmf_components: []
+      parameters: []
+      qvip_memory_agents: []
+      scoreboards: []
+      subenvs:
+      - name: fetch_subenvironment
+        parameters: []
+        type: fetch
+      - name: decode_subenvironment
+        parameters: []
+        type: decode
+      - name: execute_subenvironment
+        parameters: []
+        type: execute
+      - name: writeback_subenvironment
+        parameters: []
+        type: writeback
+      - name: memaccess_subenvironment
+        parameters: []
+        type: memaccess
+      - name: control_subenvironment
+        parameters: []
+        type: control
+      tlm_connections: []

@@ -1,0 +1,72 @@
+# //------------------------------------------------------------------------------------------------
+#// Created by      : Vinia Ambade
+#// Creation Date   : Nov 8 2022
+#//------------------------------------------------------------------------------------------------
+#// DESCRIPTION:  YAML file to describe parameters and interface information and data to 
+#                 facilitate package component generation.
+#                 Used in UVMF to capture information at a high level that can subsequently be used 
+#                 by code generators to construct elements of a UVM testbench code.
+#                 All UVMF YAML files must be presented as part of a specific top level format.
+#//-----------------------------------------------------------------------------------------------
+uvmf:
+  interfaces:
+    "memaccess_in":  #Interface name
+    # all signals below identifies that subsequent data information is for a UVMF interface 'decode_in'
+      clock: "clock"    #[]
+      reset: "reset"    #[]
+      reset_assertion_level: "True"
+      hdl_typedefs: []
+      # Define any types used by the HDL side of the testbench
+      # Here you define the valid Memory Access instructions and specify the bit values for each instruction
+      hvl_typedefs: []
+      ports: 
+      # Here we define all of the signal names, directions and widths for the agent/interface
+      # Direction specified here is in relation to the testbench
+      # eg - ‘alu_rst’ is an output from the testbench and an input pin on the DUT
+        - name: "m_data"   
+          width: "16"        
+          dir: "output" 
+          reset_value: '''bx'
+        - name: "m_addr"   
+          width: "16"        
+          dir: "output" 
+          reset_value: '''bx'
+        - name: "m_control"     #connected to Mem_control_out signal from execute stage   
+          width: "1"        
+          dir: "output" 
+          reset_value: '''bx'
+        - name: "mem_state"   
+          width: "2"        
+          dir: "output" 
+          reset_value: '''bx'
+        - name: "dmem_dout"   
+          width: "16"        
+          dir: "output" 
+          reset_value: '''bx'
+      transaction_constraints: []
+      transaction_vars:
+      # Defines any variable to be used by the transaction class.
+      # Variables in the transaction class reflect the untimed information used during a transfer on the bus
+      # Eg - For the ALU, the transaction will specify the operation and the a & b operands
+      # Each of these transaction variables can be randomized since we specified isrand:‘True’
+      # Within the generated transaction class, each of the transaction variables will be included in a do_compare method since we specified iscompare: ‘True’
+        - name: "m_data"  
+          type: "bit [15:0]"
+          isrand: "True"
+          iscompare: "False" 
+        - name: "m_addr"  
+          type: "bit [15:0]"
+          isrand: "True"
+          iscompare: "False" 
+        - name: "m_control"  
+          type: "bit"
+          isrand: "True"
+          iscompare: "False" 
+        - name: "mem_state"  
+          type: "bit [1:0]"
+          isrand: "True"
+          iscompare: "False" 
+        - name: "dmem_dout"  
+          type: "bit [15:0]"
+          isrand: "True"
+          iscompare: "False" 

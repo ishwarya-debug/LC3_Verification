@@ -1,0 +1,32 @@
+uvmf:
+  environments:
+    "execute" :
+     
+      agents :
+        - name: "in_agt"
+          type: "execute_in"
+          initiator_responder: "INITIATOR"
+        - name: "out_agt"
+          type: "execute_out"
+          initiator_responder: "RESPONDER"
+      
+      analysis_components :
+        - name: "pred"
+          type: "execute_predictor"
+     
+      scoreboards : 
+        - name: "scbd"
+          sb_type: "uvmf_in_order_race_scoreboard"
+          trans_type: "execute_out_transaction"
+      
+      tlm_connections :
+        # Connection from agent to driver
+        - driver:   "in_agt.monitored_ap"
+          receiver: "pred.analysis_export"
+        # Connection from predictor to scoreboard
+        - driver:   "pred.analysis_port"
+          receiver: "scbd.expected_analysis_export"
+        # Connection from execute_out_agent to scoreboard
+        - driver:   "out_agt.monitored_ap"
+          receiver: "scbd.actual_analysis_export"
+

@@ -1,0 +1,60 @@
+uvmf:
+  environments:
+    "writeback" :
+      ## Agents are defined in a LIST so that the order is maintained. This is important
+      ## because of how the BFMs are passed in at the bench utilize this same order when
+      ## this environment's initialize() routine is called.
+      agents :
+        - name: "writeback_in_my_agent" 
+          type: "writeback_in"
+          initiator_responder: "INITIATOR"
+        - name: "writeback_out_my_agent"
+          type: "writeback_out"
+          initiator_responder: "RESPONDER"
+      ## Analysis components are defined externally in a 'util_components' structure.
+      ## They are instantiated here.
+      analysis_components :
+        - name: "writeback_my_predictor"
+          type: "writeback_predictor"
+
+      ## Each scoreboard is keyed by the scoreboard instantiation name with
+      ## information on the scoreboard type and what type of transaction it
+      ## will be parsing
+      scoreboards : 
+        - name: "writeback_my_scoreboard"
+          sb_type: "uvmf_in_order_scoreboard"
+          trans_type: "writeback_out_transaction"
+
+      ## Define top-level analysis ports here. Keyed by the name of each
+      ## one, specify the type of transaction passing through as well as
+      ## which internal component will be driving the AP.
+      analysis_ports : []
+
+      ## Define top-level analysis exports. Keyed by the unique name of each
+      ## one, specify the type of transaction passing through as well as
+      ## which internal component will be driven by this port.
+      analysis_exports : []
+ 
+      ## Define internal TLM connections. Each entry must have a 'driver' and 
+      ## a 'receiver' entry used to determine the full connection.
+      tlm_connections :
+        # Connection 0
+        - driver:   "writeback_in_my_agent.monitored_ap"
+          receiver: "writeback_my_predictor.analysis_export"
+        # Connection 1
+        - driver:   "writeback_my_predictor.analysis_port"
+          receiver: "writeback_my_scoreboard.expected_analysis_export"
+        # Connection 2
+        - driver:   "writeback_out_my_agent.monitored_ap"
+          receiver: "writeback_my_scoreboard.actual_analysis_export"
+
+      ## Environment-level configuration variables. Each entry is keyed with a 
+      ## unique name and is assigned a 'type' and 'isrand' value.
+      config_vars : []
+      ## Environment-level configuration constraints. Each entry is keyed with
+      ## a unique name  with the value being an SVA constraint block
+      config_constraints: []
+
+      config_variable_values: []
+
+
